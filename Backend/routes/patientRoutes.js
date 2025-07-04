@@ -7,4 +7,4 @@ router.get('/', (req, res) => {
   res.send('Patient route working');
 });
 
-module.exports = Router;
+module.exports = router;
