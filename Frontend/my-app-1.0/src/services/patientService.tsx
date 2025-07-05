@@ -91,10 +91,10 @@ const mockPatients: Patient[] = [{
   }]
 }, {
   id: 'p-1003',
-  firstName: 'Robert',
-  lastName: 'Smith',
+  firstName: 'Jungkook',
+  lastName: 'Jeon',
   nationalId: 'ZMB456789123',
-  email: 'robert.smith@example.com',
+  email: 'jungkook.jeon@example.com',
   location: 'Kitwe, Zambia',
   phoneNumber: '+260 95 4567891',
   lastVisit: '2023-07-05',
@@ -120,9 +120,9 @@ const mockPatients: Patient[] = [{
 }, {
   id: 'p-1004',
   firstName: 'Emma',
-  lastName: 'Johnson',
+  lastName: 'Mwale',
   nationalId: 'ZMB789123456',
-  email: 'emma.johnson@example.com',
+  email: 'emma.mwale@example.com',
   location: 'Livingstone, Zambia',
   phoneNumber: '+260 97 8912345',
   lastVisit: '2023-08-12',
