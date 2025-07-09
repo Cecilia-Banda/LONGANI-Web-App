@@ -100,7 +100,7 @@ const Login: React.FC = () => {
 					</h1>
 					<p className="text-gray-600">
 						{isLogin
-							? "Sign in to access your healthcare dashboard"
+							? "Sign in to access your Longani dashboard"
 							: "Create your account to get started"}
 					</p>
 				</div>
