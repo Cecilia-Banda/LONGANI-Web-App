@@ -64,5 +64,3 @@ USAGE
 To register a new patient, use the POST request to /api/patients with patient details (name, ID, etc.).
 
 Use the frontend interface for easier interaction
-
-Demo Video: //to be added later//
