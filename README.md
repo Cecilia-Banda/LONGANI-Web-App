@@ -48,4 +48,4 @@ To register a new patient, use the POST request to /api/patients with patient de
 
 Use the frontend interface for easier interaction
 
-Demo Video: //to be added later//
+Demo Video: https://screenapp.io/app/#/shared/66akEMXJmC 
