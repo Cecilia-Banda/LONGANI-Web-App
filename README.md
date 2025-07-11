@@ -68,7 +68,7 @@ To register a new patient, use the POST request to /api/patients with patient de
 Use the frontend interface for easier interaction
 
 
-   DEPLOYMENT PLAN
+    DEPLOYMENT PLAN
  - Frontend : Vercel
  - Backend: Render
  - Database: MongoDB Atlas
