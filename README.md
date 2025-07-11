@@ -1,5 +1,7 @@
 # LONGANI-Web-App
-A streamlined, role-based web application built with React, Node.js, and MongoDB designed to modernize healthcare data management. It eliminates paper-based patient records, improves efficiency for medical staff, and ensures secure, real-time access to patient information.
+
+PROJECT DESCRIPTION
+  A streamlined, role-based web application built with React, Node.js, and MongoDB designed to modernize healthcare data management. It eliminates paper-based patient records, improves efficiency for medical staff, and ensures secure, real-time access to patient information.
 
 
 EXACT SETUP
@@ -40,7 +42,7 @@ Terminal 2 - Frontend Development Server cd frontend npm start
 
 Step 6: Access the Application open your browser and go to http://localhost:5000
 
-Once both the backend server and frontend development server are running, you can access the application in your browser, whenyou have deployed it //
+Once both the backend server and frontend development server are running, you can access the application in your browser, when you have deployed it
 
 USAGE
 
@@ -48,4 +50,11 @@ To register a new patient, use the POST request to /api/patients with patient de
 
 Use the frontend interface for easier interaction
 
-Demo Video: https://screenapp.io/app/#/shared/66akEMXJmC 
+  DESIGNS
+ - Figma mockUps: https://www.figma.com/proto/mbSaNSmIx5KZqeZHETuaNB/LONGANI?node-id=0-1&t=L1vEDwPLgxiJB3QW-1
+ - Screenshots: See Figma/screenshot folder
+
+
+
+    DEMO VIDEO
+https://screenapp.io/app/#/shared/66akEMXJmC 
