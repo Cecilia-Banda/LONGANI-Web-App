@@ -24,7 +24,7 @@ import {
 	RefreshCw,
 } from "lucide-react";
 
-const ReceptionistDashboard = () => {
+const RecordOfficerDashboard = () => {
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [selectedTab, setSelectedTab] = useState("queue");
 	const [showNotifications, setShowNotifications] = useState(true);
@@ -677,10 +677,10 @@ const getPriorityColor = (priority: string) => {
 					<div className="flex justify-between items-center h-16">
 						<div>
 							<h1 className="text-2xl font-bold text-gray-900">
-								Receptionist Dashboard
+								Record Officer Dashboard
 							</h1>
 							<p className="text-sm text-gray-600">
-								Welcome back, Receptionist!
+								Welcome back, Record Officer!
 							</p>
 						</div>
 						<div className="flex items-center space-x-4">
@@ -786,4 +786,4 @@ const getPriorityColor = (priority: string) => {
 	);
 };
 
-export default ReceptionistDashboard;
+export default RecordOfficerDashboard;

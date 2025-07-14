@@ -21,8 +21,8 @@ const PatientRegistration: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Only admin, data_manager, and receptionist can access this page
-  if (user?.role !== 'admin' && user?.role !== 'data_manager' && user?.role !== 'receptionist') {
+  // Only admin, data_manager, and RecordOfficer can access this page
+  if (user?.role !== 'admin' && user?.role !== 'data_manager' && user?.role !== 'RecordOfficer') {
     return <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-gray-900">Access Denied</h2>
         <p className="mt-2 text-gray-600">

@@ -122,7 +122,7 @@ const Login: React.FC = () => {
 				onChange={(e) => setRole(e.target.value as import("../contexts/AuthContext").UserRole)}
 				className="w-full px-4 py-3 bg-white/50 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
 				<option value="admin">Admin</option>
-				<option value="receptionist">Receptionist</option>
+				<option value="record-officer">Record Officer</option>
 				<option value="nurse">Nurse</option>
 				<option value="doctor">Doctor</option>
 			</select>

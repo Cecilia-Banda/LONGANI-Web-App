@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-export type UserRole = 'admin' | 'data_manager' | 'nurse' | 'doctor' | 'receptionist' | null;
+export type UserRole = 'admin' | 'data_manager' | 'nurse' | 'doctor' | 'record officer' | null;
 interface User {
   id: string;
   firstName: string;

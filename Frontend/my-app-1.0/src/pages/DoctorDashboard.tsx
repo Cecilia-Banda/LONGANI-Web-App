@@ -18,9 +18,18 @@ import {
 	TestTube,
 } from "lucide-react";
 
+type PatientRecord = {
+	id: number;
+	name: string;
+	age: number;
+	lastVisit: string;
+	condition: string;
+	vitals: { bp: string; hr: string; temp: string };
+};
+
 const DoctorDashboard = () => {
 	const [activeTab, setActiveTab] = useState("appointments");
-	const [selectedPatient, setSelectedPatient] = useState(null);
+	const [selectedPatient, setSelectedPatient] = useState<PatientRecord | null>(null);
 	const [notifications, setNotifications] = useState(3);
 
 	// Sample data
@@ -120,7 +129,7 @@ const DoctorDashboard = () => {
 		},
 	];
 
-	const getStatusColor = (status) => {
+	const getStatusColor = (status: string) => {
 		switch (status) {
 			case "waiting":
 				return "bg-yellow-100 text-yellow-800";
@@ -135,7 +144,7 @@ const DoctorDashboard = () => {
 		}
 	};
 
-	const getAlertColor = (type) => {
+	const getAlertColor = (type: string) => {
 		switch (type) {
 			case "urgent":
 				return "bg-red-50 border-red-200 text-red-800";

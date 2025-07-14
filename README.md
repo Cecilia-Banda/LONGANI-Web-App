@@ -1,7 +1,7 @@
 # LONGANI-Web-App
+PROJECT DESCRIPTION
 
-    PROJECT DESCRIPTION
-A streamlined, role-based web application built with React, Node.js, and MongoDB, designed to modernize healthcare data management. It is meant to eliminate paper-based patient records, improve efficiency for medical staff, and ensure secure, real-time access to patient information.
+A streamlined, role-based web application built with React, Node.js, and MongoDB designed to modernize healthcare data management. It eliminates paper-based patient records, improves efficiency for medical staff, and ensures secure, real-time access to patient information.
 
 
 EXACT SETUP
@@ -50,25 +50,24 @@ Once both the backend server and frontend development server are running, you ca
 Figma mockUps: https://www.figma.com/proto/mbSaNSmIx5KZqeZHETuaNB/LONGANI?node-id=0-1&t=L1vEDwPLgxiJB3QW-1
 
 Screenshots: 
-![login screenshot](./Design/login.png)
-![Admin screenshot](./Design/Admin-Dashboard.png)
-![Doctor screenshot](./Design/Doctor-Dashboard.png)
-![Nurse screenshot](./Design/Nurse-Dashboard.png)
-![Receptionist screenshot](./Design/Receptionist-dashboard.png)
+![login](./Design/login.png)
+![Admin](./Design/Admin-Dashboard.png)
+![Doctor](./Design/Doctor-Dashboard.png)
+![Nurse](./Design/Nurse-Dashboard.png)
+![RecordOfficer](./Design/RecordOfficer-dashboard.png)
 
 
 
-    DEMO VIDEO 
+DEMO VIDEO 
 https://screenapp.io/app/#/shared/66akEMXJmC
 
-    USAGE
+USAGE
 
 To register a new patient, use the POST request to /api/patients with patient details (name, ID, etc.).
 
 Use the frontend interface for easier interaction
 
-
-    DEPLOYMENT PLAN
+DEPLOYMENT PLAN
  - Frontend : Vercel
  - Backend: Render
  - Database: MongoDB Atlas
