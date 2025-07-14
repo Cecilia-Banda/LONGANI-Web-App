@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
 import NurseDashboard from './pages/NurseDashboard';
-import ReceptionistDashboard from './pages/ReceptionistDashboard';
+import RecordOfficerDashboard from './pages/RecordOfficerDashboard';
 import PatientDetail from './pages/PatientDetail';
 import PatientRegistration from './pages/PatientRegistration';
 import PatientEdit from './pages/PatientEdit';
@@ -29,7 +29,7 @@ export function App() {
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
             <Route path="/dashboard/doctor" element={<DoctorDashboard />} />
             <Route path="/dashboard/nurse" element={<NurseDashboard />} />
-            <Route path="/dashboard/receptionist" element={<ReceptionistDashboard />} />
+            <Route path="/dashboard/recordofficer" element={<RecordOfficerDashboard />} />
             <Route path="/patients/register" element={<PatientRegistration />} />
             <Route path="/patients/:id" element={<PatientDetail />} />
             <Route path="/patients/:id/edit" element={<PatientEdit />} />
