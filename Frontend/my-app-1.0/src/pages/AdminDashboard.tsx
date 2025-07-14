@@ -60,8 +60,15 @@ const AdminDashboard = () => {
 		},
 		{
 			id: 3,
+			name: "Elizabeth Mwanza",
+			role: "Nurse",
+			requested: "5 days ago",
+			status: "pending",
+		},
+		{
+			id: 4,
 			name: "Lisa Rodriguez",
-			role: "Receptionist",
+			role: "Record Officer",
 			requested: "3 hours ago",
 			status: "pending",
 		},
@@ -180,7 +187,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => (
 					color="bg-green-500"
 				/>
 				<StatCard
-					title="Receptionists"
+					title="Record Officers"
 					value="24"
 					change={-2}
 					icon={Users}
@@ -442,7 +449,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => (
 									},
 									{
 										action: "New patient registered",
-										user: "Reception",
+										user: "Record keeping",
 										time: "5 minutes ago",
 										type: "info",
 									},
