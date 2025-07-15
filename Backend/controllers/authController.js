@@ -1,30 +1,26 @@
-const User = require('../models/userModel');
-const jwt = require('jsonwebtoken');
+import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 function createToken(user) {
-  return jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: '2d' }
-  );
+  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '2d' });
 }
 
-exports.register = async (req, res) => {
-  const { fullName, username, password, role } = req.body;
+export async function register(req, res) {
+  const { fullName, username, email, password, role } = req.body;
   try {
     const existingUser = await User.findOne({ username });
     if (existingUser) return res.status(400).json({ error: 'Username taken' });
 
-    const user = new User({ fullName, username, password, role });
+    const user = new User({ fullName, username, email, password, role });
     await user.save();
     const token = createToken(user);
     res.status(201).json({ token, user: { fullName, username, role } });
   } catch (err) {
     res.status(500).json({ error: 'Registration failed', details: err.message });
   }
-};
+}
 
-exports.login = async (req, res) => {
+export async function login(req, res) {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
@@ -38,8 +34,9 @@ exports.login = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Login failed', details: err.message });
   }
-};
-exports.getUserProfile = async (req, res) => {
+}
+
+export async function getUserProfile(req, res) {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
@@ -47,4 +44,5 @@ exports.getUserProfile = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch user profile', details: err.message });
   }
-};
+}
+export default { register, login, getUserProfile };

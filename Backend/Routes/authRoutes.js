@@ -1,13 +1,15 @@
 console.log('--- authRouterNew.js: File is being loaded! ---'); // Diagnostic log
-
-const express = require('express');
-const authController = require('../controllers/authController');
+import express from 'express';
+import { register, login, getUserProfile } from '../controllers/authController.js';
+import protect from '../middleware/authmiddleware.js'; // ⬅️ use import
 
 const router = express.Router();
 
-router.post('/register', authController.register);
-router.post('/login', authController.login);
-router.get('/profile', authController.getUserProfile); // Optional
+router.post('/register', register);
+router.post('/login', login);
 
-module.exports = router;
-console.log('--- authRouterNew.js: Routes are set up! ---'); // Diagnostic log
+// 🔐 Protected route — requires valid token in headers
+router.get('/profile', protect, getUserProfile);
+
+export default router;
+// ✅ Use ESModule export syntax
