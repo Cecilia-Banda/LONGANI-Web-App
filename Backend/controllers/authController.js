@@ -1,44 +1,50 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
-// Register a new user
+function createToken(user) {
+  return jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '2d' }
+  );
+}
+
 exports.register = async (req, res) => {
-  const { username, password, email, role } = req.body;
-
+  const { fullName, username, password, role } = req.body;
   try {
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(404).json({ message: 'User already exists' });
-    }
+    const existingUser = await User.findOne({ username });
+    if (existingUser) return res.status(400).json({ error: 'Username taken' });
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new user
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      role
-    });
-
-    // Save the user to the database
-    await newUser.save();
-
-    // Generate a JWT token
-    const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    // Return the token and user information
-    res.status(201).json({ token, user: { id: newUser._id, username: newUser.username, email: newUser.email, role: newUser.role } });
-  } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    const user = new User({ fullName, username, password, role });
+    await user.save();
+    const token = createToken(user);
+    res.status(201).json({ token, user: { fullName, username, role } });
+  } catch (err) {
+    res.status(500).json({ error: 'Registration failed', details: err.message });
   }
 };
 
-module.exports = {register, login}
-// authController.js
-const mongoose = require('mongoose');
-require('dotenv').config(); // Load environment variables
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ error: 'User not found' });
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return res.status(400).json({ error: 'Incorrect password' });
+
+    const token = createToken(user);
+    res.status(200).json({ token, user: { fullName: user.fullName, username, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: 'Login failed', details: err.message });
+  }
+};
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json({ user: { fullName: user.fullName, username: user.username, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch user profile', details: err.message });
+  }
+};
