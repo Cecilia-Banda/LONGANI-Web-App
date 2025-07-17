@@ -627,7 +627,7 @@ const getPriorityColor = (priority: string) => {
 								<p className="text-sm font-medium text-gray-900">
 									Long wait time
 								</p>
-								<p className="text-xs text-gray-600">John Doe - 45 minutes</p>
+								<p className="text-xs text-gray-600">John Doe - 90 minutes</p>
 							</div>
 						</div>
 						<div className="flex items-center space-x-3 p-3 bg-orange-50 rounded-lg">
