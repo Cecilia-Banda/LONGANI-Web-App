@@ -146,7 +146,7 @@ const Sidebar: React.FC = () => {
 				name: "Register Patient",
 				icon: <UserPlus size={20} />,
 				href: "/patients/register",
-				allowedRoles: ["Record Officer"],
+				allowedRoles: ["record Officer"],
 			},
 			{
 				name: "Patient Records",

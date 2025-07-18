@@ -18,8 +18,8 @@ const Dashboard: React.FC = () => {
         case "nurse":
           navigate("/dashboard/nurse");
           break;
-        case "Record Officer":
-          navigate("/dashboard/Record Officer");
+        case "record officer":
+          navigate("/dashboard/record officer");
           break;
         default:
           navigate("/dashboard");

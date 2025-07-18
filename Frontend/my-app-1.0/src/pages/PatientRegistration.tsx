@@ -113,11 +113,11 @@ const PatientRegistration: React.FC = () => {
                 </div>
               </div>
               <div className="sm:col-span-3">
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                  Location
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                  Address
                 </label>
                 <div className="mt-1">
-                  <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} required className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" />
+                  <input type="text" name="address" id="address" value={formData.address} onChange={handleChange} required className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" />
                 </div>
               </div>
               <div className="sm:col-span-3">
