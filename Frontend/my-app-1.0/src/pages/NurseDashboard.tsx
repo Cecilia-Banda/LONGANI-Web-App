@@ -18,14 +18,41 @@ import {
 
 const OPDNurseDashboard = () => {
 	const [activeTab, setActiveTab] = useState("queue");
-	const [selectedPatient, setSelectedPatient] = useState(null);
-	const [notifications, setNotifications] = useState([]);
+
+	type Patient = {
+		id: number;
+		name: string;
+		age: number;
+		arrivalTime: string;
+		status: string;
+		priority: string;
+		complaint: string;
+		vitals: {
+			temperature: string | null;
+			bloodPressure: string | null;
+			heartRate: string | null;
+			oxygen: string | null;
+		};
+		lastUpdated: string | null;
+	};
+
+	const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+
+	type Notification = {
+		id: number;
+		type: "reassignment" | "vitals-request" | "system" | "success";
+		message: string;
+		time: string;
+		read: boolean;
+	};
+
+	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("all");
 	const [currentTime, setCurrentTime] = useState(new Date());
 
 	// Sample data - in real app, this would come from API
-	const [patients, setPatients] = useState([
+	const [patients, setPatients] = useState<Patient[]>([
 		{
 			id: 1,
 			name: "Sarah Johnson",
@@ -135,7 +162,7 @@ const OPDNurseDashboard = () => {
 		]);
 	}, []);
 
-	const getStatusColor = (status) => {
+	const getStatusColor = (status: string) => {
 		switch (status) {
 			case "waiting":
 				return "bg-yellow-100 text-yellow-800";
@@ -148,7 +175,7 @@ const OPDNurseDashboard = () => {
 		}
 	};
 
-	const getPriorityColor = (priority) => {
+	const getPriorityColor = (priority: string) => {
 		switch (priority) {
 			case "urgent":
 				return "bg-red-500";
@@ -201,7 +228,7 @@ const OPDNurseDashboard = () => {
 			});
 
 			// Add success notification
-			const newNotification = {
+			const newNotification: Notification = {
 				id: Date.now(),
 				type: "success",
 				message: `Vitals updated for ${selectedPatient.name}`,
@@ -215,7 +242,7 @@ const OPDNurseDashboard = () => {
 		}
 	};
 
-	const updatePatientStatus = (patientId, newStatus) => {
+	const updatePatientStatus = (patientId: number, newStatus: string) => {
 		const updatedPatients = patients.map((p) => {
 			if (p.id === patientId) {
 				return { ...p, status: newStatus };

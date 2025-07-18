@@ -48,4 +48,3 @@ export const deletePatient = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete patient', details: err.message });
   }
 };
-export default { createPatient, getAllPatients, getSinglePatient, updatePatient, deletePatient };
