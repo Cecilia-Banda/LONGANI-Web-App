@@ -4,7 +4,8 @@ const patientSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   age: Number,
   gender: String,
-  diagnosis: String,
+  address: String,
+  phoneNumber: String,
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now }
 });

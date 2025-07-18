@@ -43,7 +43,7 @@ export const deletePatient = async (req, res) => {
   try {
     const deleted = await Patient.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Patient not found' });
-    res.status(200).json({ msg: 'Patient deleted' });
+    res.status(200).json({ msg: 'Patient deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete patient', details: err.message });
   }
