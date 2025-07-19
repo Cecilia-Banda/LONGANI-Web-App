@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Save, X, AlertTriangle, FileText, ChevronLeft } from 'lucide-react';
-import { getPatientById, addMedicalRecord } from '../services/patientService';
+import { getPatientById } from '../services/patientService'; // ✅ only what you use
 const DiagnosisForm: React.FC = () => {
   const {
     id

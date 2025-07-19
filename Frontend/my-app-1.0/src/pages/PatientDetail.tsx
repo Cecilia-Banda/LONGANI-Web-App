@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { User, MapPin, Phone, Mail, Calendar, Activity, FileText, Clipboard, Edit, Pill, ChevronLeft, Clock, AlertTriangle } from 'lucide-react';
-import { getPatientById, Patient, PatientVitals, PatientMedical } from '../services/patientService';
+import { getPatientById } from '../services/patientService'; // ✅ only what you use
+import {
+  User, MapPin, Phone, Mail, Calendar, Activity,
+  FileText, Clipboard, Edit, ChevronLeft, Clock, AlertTriangle
+} from 'lucide-react';
+
 const PatientDetail: React.FC = () => {
   const {
     id
@@ -24,18 +28,23 @@ const PatientDetail: React.FC = () => {
   const canEditVitals = ['admin', 'nurse'].includes(user?.role || '');
   const canViewMedical = ['admin', 'doctor'].includes(user?.role || '');
   const canEditMedical = ['admin', 'doctor'].includes(user?.role || '');
-  useEffect(() => {
-    if (id) {
-      const fetchedPatient = getPatientById(id);
-      if (fetchedPatient) {
-        setPatient(fetchedPatient);
-        setLoading(false);
-      } else {
-        setError('Patient not found');
-        setLoading(false);
-      }
+ useEffect(() => {
+  const fetchPatient = async () => {
+    try {
+      const data = await getPatientById(id);
+      setPatient(data);
+    } catch (err) {
+      setError('Patient not found');
+    } finally {
+      setLoading(false);
     }
-  }, [id]);
+  };
+
+  if (id) {
+    fetchPatient();
+  }
+}, [id]);
+
   if (loading) {
     return <div className="flex justify-center items-center h-64">
         <p>Loading patient data...</p>

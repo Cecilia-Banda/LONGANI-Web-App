@@ -40,7 +40,7 @@ export function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/patients/new" element={<PatientRegistration />} />
-            <Route path="/patients/:id/edit" element={<PatientEdit />} />
+      
           </Route>
         </Routes>
       </AuthProvider>

@@ -1,5 +1,29 @@
 import Patient from '../models/patientModel.js';
 
+// Search Patients Controller
+export const searchPatients = async (req, res) => {
+  const query = req.query.q;
+
+  if (!query) return res.status(400).json({ error: 'Search query is required' });
+
+  try {
+    const regex = new RegExp(query, 'i'); // case-insensitive match
+    const results = await Patient.find({
+      $or: [
+        { fullName: regex },
+        { phone: regex },
+        { nationalId: regex },
+        { address: regex }
+      ]
+    });
+
+    res.status(200).json(results);
+  } catch (err) {
+    res.status(500).json({ error: 'Search failed', details: err.message });
+  }
+};
+
+
 export const createPatient = async (req, res) => {
   try {
     const patient = new Patient({ ...req.body, createdBy: req.user.id });

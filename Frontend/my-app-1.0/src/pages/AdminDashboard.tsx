@@ -65,13 +65,6 @@ const AdminDashboard = () => {
 			requested: "5 days ago",
 			status: "pending",
 		},
-		{
-			id: 4,
-			name: "Lisa Rodriguez",
-			role: "Record Officer",
-			requested: "3 hours ago",
-			status: "pending",
-		},
 	]);
 
 	const handleApprove = (id: number) => {

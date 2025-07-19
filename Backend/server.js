@@ -1,5 +1,3 @@
-// server.js
-
 console.log('--- server.js: Starting server setup ---'); // Diagnostic log
 
 import express from 'express';
