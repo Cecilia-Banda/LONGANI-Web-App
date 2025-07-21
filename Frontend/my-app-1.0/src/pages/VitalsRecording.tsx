@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import api from '../services/axios'; // Assuming you have an axios instance configured at this path
+import api from "../Utils/axios.js"; // Adjusted path to utils folder one level up
 
 interface VitalsFormState {
   temperature: number | '';
