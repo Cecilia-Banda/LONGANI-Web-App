@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import Appointments from './pages/Appointments';
 import DoctorDashboard from './pages/DoctorDashboard';
 import NurseDashboard from './pages/NurseDashboard';
 import RecordOfficerDashboard from './pages/RecordOfficerDashboard';
@@ -27,6 +28,7 @@ export function App() {
               </ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
+            <Route path="/appointments" element={<Appointments />} />
             <Route path="/dashboard/doctor" element={<DoctorDashboard />} />
             <Route path="/dashboard/nurse" element={<NurseDashboard />} />
             <Route path="/dashboard/Record Officer" element={<RecordOfficerDashboard />} />

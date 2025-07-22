@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { LogOut, Bell, User, Menu, X } from "lucide-react";
+import { LogOut, Bell, User, Menu, X, Calendar } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
+import { NavLink } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
 	const { user, logout } = useAuth();
@@ -42,11 +43,19 @@ const Navbar: React.FC = () => {
 					<button className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
 						<Bell size={20} />
 					</button>
-
+				{/* Right side - Desktop Navigation */}
+				<div className="hidden md:flex items-center space-x-4">
+					<NavLink to="/appointments" className="flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors">
+						<Calendar className="h-5 w-5" />
+						Schedule Appointments
+					</NavLink>
+					<button className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+						<Bell size={20} />
+					</button>
 					<div className="flex items-center space-x-3">
-						<div className="flex flex-col items-end">
+						<div className="flex flex-col">
 							<span className="text-sm font-medium text-gray-900">
-								{user?.name}
+								{user?.username}
 							</span>
 							<span className="text-xs text-gray-500 capitalize">
 								{user?.role?.replace("_", " ")}
@@ -56,7 +65,6 @@ const Navbar: React.FC = () => {
 							<User size={18} />
 						</div>
 					</div>
-
 					<button
 						onClick={logout}
 						className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"

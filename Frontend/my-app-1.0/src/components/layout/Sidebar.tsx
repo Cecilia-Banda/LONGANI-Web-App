@@ -117,7 +117,7 @@ const Sidebar: React.FC = () => {
 				allowedRoles: ["doctor"],
 			},
 			{
-				name: "Appointments",
+				name: "Schedule Appointments",
 				icon: <Calendar size={20} />,
 				href: "/appointments",
 				allowedRoles: ["doctor"],

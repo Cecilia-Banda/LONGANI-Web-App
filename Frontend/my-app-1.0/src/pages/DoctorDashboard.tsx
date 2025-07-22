@@ -37,25 +37,17 @@ const DoctorDashboard = () => {
 		{
 			id: 1,
 			time: "09:00",
-			patient: "Sarah Johnson",
+			patient: "Johnson Kamboe",
 			age: 34,
 			condition: "Routine Checkup",
 			status: "waiting",
 			urgent: false,
 		},
-		{
-			id: 2,
-			time: "09:30",
-			patient: "Michael Chen",
-			age: 45,
-			condition: "Hypertension Follow-up",
-			status: "in-progress",
-			urgent: false,
-		},
+		
 		{
 			id: 3,
 			time: "10:00",
-			patient: "Emma Williams",
+			patient: "Emmaculate Walasa",
 			age: 28,
 			condition: "Chest Pain",
 			status: "scheduled",
@@ -67,15 +59,6 @@ const DoctorDashboard = () => {
 			patient: "Robert Davis",
 			age: 52,
 			condition: "Diabetes Review",
-			status: "scheduled",
-			urgent: false,
-		},
-		{
-			id: 5,
-			time: "11:00",
-			patient: "Lisa Martinez",
-			age: 39,
-			condition: "Migraine",
 			status: "scheduled",
 			urgent: false,
 		},
@@ -112,7 +95,7 @@ const DoctorDashboard = () => {
 		{
 			id: 1,
 			type: "urgent",
-			message: "Patient Emma Williams reporting severe chest pain",
+			message: "Patient William Nundu reporting severe chest pain",
 			time: "08:45",
 		},
 		{

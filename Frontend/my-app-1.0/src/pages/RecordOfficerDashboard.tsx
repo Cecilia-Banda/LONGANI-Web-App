@@ -26,19 +26,13 @@ import {
 
 const RecordOfficerDashboard = () => {
 	const [currentTime, setCurrentTime] = useState(new Date());
-	const [selectedTab, setSelectedTab] = useState("queue");
+	const [selectedTab, setSelectedTab] = useState("overview");
 	const [showNotifications, setShowNotifications] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("all");
 
 	const [notifications, setNotifications] = useState([
-		{
-			id: 1,
-			type: "urgent",
-			message: "Patient John Doe has been waiting for 45 minutes",
-			time: "5 minutes ago",
-			from: "Dr. Smith",
-		},
+
 		{
 			id: 2,
 			type: "info",
@@ -67,7 +61,7 @@ const RecordOfficerDashboard = () => {
 		},
 		{
 			id: 2,
-			name: "Sarah Johnson",
+			name: "Johnson Kamboe",
 			status: "with-nurse",
 			arrivalTime: "09:30",
 			waitTime: "30 min",
@@ -85,21 +79,12 @@ const RecordOfficerDashboard = () => {
 		},
 		{
 			id: 4,
-			name: "Lisa Rodriguez",
+			name: "Emmaculate Walasa",
 			status: "waiting",
 			arrivalTime: "10:00",
 			waitTime: "15 min",
 			reason: "Vaccination",
 			priority: "normal",
-		},
-		{
-			id: 5,
-			name: "David Wilson",
-			status: "waiting",
-			arrivalTime: "10:15",
-			waitTime: "5 min",
-			reason: "Emergency",
-			priority: "urgent",
 		},
 	]);
 
@@ -113,36 +98,12 @@ const RecordOfficerDashboard = () => {
 			phone: "555-0123",
 		},
 		{
-			id: 2,
-			time: "11:30",
-			patient: "Robert Brown",
-			doctor: "Dr. Johnson",
-			status: "confirmed",
-			phone: "555-0124",
-		},
-		{
-			id: 3,
-			time: "12:00",
-			patient: "Alice Cooper",
-			doctor: "Dr. Williams",
-			status: "missed",
-			phone: "555-0125",
-		},
-		{
 			id: 4,
 			time: "12:30",
 			patient: "James Miller",
 			doctor: "Dr. Davis",
 			status: "scheduled",
 			phone: "555-0126",
-		},
-		{
-			id: 5,
-			time: "13:00",
-			patient: "Maria Garcia",
-			doctor: "Dr. Smith",
-			status: "confirmed",
-			phone: "555-0127",
 		},
 	]);
 
@@ -156,28 +117,12 @@ const RecordOfficerDashboard = () => {
 			address: "Complete",
 		},
 		{
-			id: 2,
-			name: "Rachel Green",
-			time: "09:00",
-			status: "incomplete",
-			phone: "555-0129",
-			address: "Missing",
-		},
-		{
 			id: 3,
 			name: "Peter Parker",
 			time: "09:45",
 			status: "complete",
 			phone: "555-0130",
 			address: "Complete",
-		},
-		{
-			id: 4,
-			name: "Mary Jane",
-			time: "10:30",
-			status: "incomplete",
-			phone: "",
-			address: "Missing",
 		},
 	]);
 

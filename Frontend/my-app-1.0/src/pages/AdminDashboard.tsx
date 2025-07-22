@@ -22,7 +22,7 @@ const AdminDashboard = () => {
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [selectedTab, setSelectedTab] = useState("overview");
 	const [showNotifications, setShowNotifications] = useState(true);
-	const [notifications, setNotifications] = useState([
+	const [notifications] = useState([
 		{
 			id: 1,
 			type: "info",

@@ -15,6 +15,7 @@ import {
 	Search,
 	Filter,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const OPDNurseDashboard = () => {
 	const [activeTab, setActiveTab] = useState("queue");
@@ -55,7 +56,7 @@ const OPDNurseDashboard = () => {
 	const [patients, setPatients] = useState<Patient[]>([
 		{
 			id: 1,
-			name: "Sarah Johnson",
+			name: "James Kamboe",
 			age: 34,
 			arrivalTime: "08:30",
 			status: "waiting",
@@ -70,24 +71,8 @@ const OPDNurseDashboard = () => {
 			lastUpdated: null,
 		},
 		{
-			id: 2,
-			name: "Michael Chen",
-			age: 67,
-			arrivalTime: "09:15",
-			status: "in-progress",
-			priority: "high",
-			complaint: "Chest pain",
-			vitals: {
-				temperature: "98.6°F",
-				bloodPressure: "140/90",
-				heartRate: "85 bpm",
-				oxygen: "95%",
-			},
-			lastUpdated: "10:30 AM",
-		},
-		{
 			id: 3,
-			name: "Emma Wilson",
+			name: "Emmaculate Walasa",
 			age: 28,
 			arrivalTime: "09:45",
 			status: "sent-to-doctor",
@@ -100,22 +85,6 @@ const OPDNurseDashboard = () => {
 				oxygen: "98%",
 			},
 			lastUpdated: "11:15 AM",
-		},
-		{
-			id: 4,
-			name: "James Brown",
-			age: 45,
-			arrivalTime: "10:20",
-			status: "waiting",
-			priority: "urgent",
-			complaint: "Severe Chest pain",
-			vitals: {
-				temperature: null,
-				bloodPressure: "130/85",
-				heartRate: "80 bpm",
-				oxygen: "97%",
-			},
-			lastUpdated: null,
 		},
 	]);
 
@@ -811,3 +780,7 @@ const OPDNurseDashboard = () => {
 };
 
 export default OPDNurseDashboard;
+<NavLink to="/appointments" className="flex items-center gap-2">
+	<Calendar className="h-5 w-5" />
+	Schedule Appointments
+</NavLink>;
