@@ -46,16 +46,9 @@ const AdminDashboard = () => {
 	const [pendingApprovals, setPendingApprovals] = useState([
 		{
 			id: 1,
-			name: "Dr. Sarah Johnson",
+			name: "Dr. Sarah Frank Johnson",
 			role: "Cardiologist",
 			requested: "2 hours ago",
-			status: "pending",
-		},
-		{
-			id: 2,
-			name: "Mike Chen",
-			role: "Nurse",
-			requested: "1 day ago",
 			status: "pending",
 		},
 		{

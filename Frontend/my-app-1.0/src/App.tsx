@@ -31,7 +31,7 @@ export function App() {
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/dashboard/doctor" element={<DoctorDashboard />} />
             <Route path="/dashboard/nurse" element={<NurseDashboard />} />
-            <Route path="/dashboard/Record Officer" element={<RecordOfficerDashboard />} />
+            <Route path="/dashboard/Record-Officer" element={<RecordOfficerDashboard />} />
             <Route path="/patients/register" element={<PatientRegistration />} />
             <Route path="/patients/:id" element={<PatientDetail />} />
             <Route path="/patients/:id/edit" element={<PatientEdit />} />

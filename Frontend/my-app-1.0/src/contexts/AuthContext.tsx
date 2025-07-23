@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 
-export type UserRole = 'admin' | 'data_manager' | 'nurse' | 'doctor' | 'Record Officer' | null;
+export type UserRole = 'admin' | 'nurse' | 'doctor' | 'Record Officer' | null;
 
 interface User {
   id: string;
@@ -26,11 +26,27 @@ export const AuthProvider: React.FC<{
 
   // Check if user is logged in from localStorage on initial load
   useEffect(() => {
-    const storedUser = localStorage.getItem('hospitalAppUser');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  const storedUser = localStorage.getItem('hospitalAppUser');
+  if (storedUser) {
+    try {
+      const user = JSON.parse(storedUser);
+
+      // Optional: You can validate the object structure here if needed
+      if (user.id && typeof user.id === 'string' && user.id.startsWith('user-')) {
+        // Simulate dummy data cleanup
+        localStorage.removeItem('hospitalAppUser');
+        setUser(null);
+      } else {
+        setUser(user);
+      }
+    } catch (err) {
+      console.error("❌ Failed to parse user from localStorage:", err);
+      localStorage.removeItem('hospitalAppUser');
+      setUser(null);
     }
-  }, []);
+  }
+}, []);
+
 
   // Login function to authenticate user
   const login = async (email: string, password: string, role: UserRole = 'admin') => {
