@@ -3,60 +3,50 @@ import { Calendar, Clock, User, Phone, Mail, MapPin, Search, Filter, Plus, Edit,
 
 interface Appointment {
   id: string;
-  visitorName: string;
-  visitorPhone: string;
-  visitorEmail: string;
+  patientName: string;
+  patientPhone: string;
+  patientEmail: string;
   purpose: string;
   date: string;
   time: string;
   duration: number;
   status: 'scheduled' | 'confirmed' | 'completed' | 'cancelled' | 'no-show';
-  officerNotes?: string;
-  inmateId?: string;
-  inmateName?: string;
+  patientId?: string;
+  doctorName?: string;
+  department?: string;
+  recordOfficerNotes?: string;
 }
 
 const Appointments: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([
     {
       id: '1',
-      visitorName: 'Sarah Johnson',
-      visitorPhone: '+1-555-0123',
-      visitorEmail: 'sarah.j@email.com',
-      purpose: 'Family Visit',
+      patientName: 'Sarah Johnson',
+      patientPhone: '+1-555-0123',
+      patientEmail: 'sarah.j@email.com',
+      purpose: 'General Consultation',
       date: '2025-07-22',
       time: '14:00',
       duration: 60,
       status: 'confirmed',
-      inmateId: 'INM001',
-      inmateName: 'John Smith'
+      patientId: 'PAT001',
+      doctorName: 'Dr. John Smith',
+      department: 'Internal Medicine'
     },
     {
       id: '2',
-      visitorName: 'Michael Brown',
-      visitorPhone: '+1-555-0456',
-      visitorEmail: 'mbrown@email.com',
-      purpose: 'Legal Consultation',
+      patientName: 'Michael Brown',
+      patientPhone: '+1-555-0456',
+      patientEmail: 'mbrown@email.com',
+      purpose: 'Specialist Appointment',
       date: '2025-07-22',
       time: '16:00',
       duration: 120,
       status: 'scheduled',
-      inmateId: 'INM002',
-      inmateName: 'David Wilson'
+      patientId: 'PAT002',
+      doctorName: 'Dr. Emily Wilson',
+      department: 'Cardiology'
     },
-    {
-      id: '3',
-      visitorName: 'Lisa Davis',
-      visitorPhone: '+1-555-0789',
-      visitorEmail: 'lisa.davis@email.com',
-      purpose: 'Social Worker Visit',
-      date: '2025-07-23',
-      time: '10:00',
-      duration: 90,
-      status: 'scheduled',
-      inmateId: 'INM003',
-      inmateName: 'Robert Garcia'
-    }
   ]);
 
   const [showForm, setShowForm] = useState(false);
@@ -66,38 +56,40 @@ const Appointments: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('');
 
   const [formData, setFormData] = useState<Omit<Appointment, 'id'>>({
-    visitorName: '',
-    visitorPhone: '',
-    visitorEmail: '',
+    patientName: '',
+    patientPhone: '',
+    patientEmail: '',
     purpose: '',
     date: '',
     time: '',
     duration: 60,
     status: 'scheduled',
-    officerNotes: '',
-    inmateId: '',
-    inmateName: ''
+    patientId: '',
+    doctorName: '',
+    department: '',
+    recordOfficerNotes: ''
   });
 
   const resetForm = () => {
     setFormData({
-      visitorName: '',
-      visitorPhone: '',
-      visitorEmail: '',
+      patientName: '',
+      patientPhone: '',
+      patientEmail: '',
       purpose: '',
       date: '',
       time: '',
       duration: 60,
       status: 'scheduled',
-      officerNotes: '',
-      inmateId: '',
-      inmateName: ''
+      patientId: '',
+      doctorName: '',
+      department: '',
+      recordOfficerNotes: ''
     });
     setEditingId(null);
   };
 
   const handleSubmit = () => {
-    if (!formData.visitorName || !formData.visitorPhone || !formData.purpose || !formData.date || !formData.time) {
+    if (!formData.patientName || !formData.patientPhone || !formData.purpose || !formData.date || !formData.time) {
       alert('Please fill in all required fields');
       return;
     }
@@ -135,9 +127,10 @@ const Appointments: React.FC = () => {
   };
 
   const filteredAppointments = appointments.filter(appointment => {
-    const matchesSearch = appointment.visitorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         appointment.inmateName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         appointment.purpose.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = appointment.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         appointment.doctorName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         appointment.purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         appointment.department?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === 'all' || appointment.status === statusFilter;
     const matchesDate = !selectedDate || appointment.date === selectedDate;
@@ -162,8 +155,8 @@ const Appointments: React.FC = () => {
   return (
     <div className="container mx-auto p-4 max-w-7xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Schedule Appointments</h1>
-        <p className="text-gray-600">Manage appointments and visit queues for record officers</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Patient Appointments</h1>
+        <p className="text-gray-600">Manage patient appointments and medical consultations</p>
       </div>
 
       {/* Stats Cards */}
@@ -172,7 +165,7 @@ const Appointments: React.FC = () => {
           <div className="flex items-center">
             <Calendar className="h-8 w-8 text-blue-600" />
             <div className="ml-3">
-              <p className="text-sm font-medium text-gray-500">Today's Visits</p>
+              <p className="text-sm font-medium text-gray-500">Today's Appointments</p>
               <p className="text-2xl font-bold text-gray-900">{todaysAppointments.length}</p>
             </div>
           </div>
@@ -218,7 +211,7 @@ const Appointments: React.FC = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
-                placeholder="Search visitors, inmates, or purpose..."
+                placeholder="Search patients, doctors, or purpose..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -267,12 +260,12 @@ const Appointments: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Visitor Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
               <input
                 type="text"
                 required
-                value={formData.visitorName}
-                onChange={(e) => setFormData(prev => ({ ...prev, visitorName: e.target.value }))}
+                value={formData.patientName}
+                onChange={(e) => setFormData(prev => ({ ...prev, patientName: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -282,8 +275,8 @@ const Appointments: React.FC = () => {
               <input
                 type="tel"
                 required
-                value={formData.visitorPhone}
-                onChange={(e) => setFormData(prev => ({ ...prev, visitorPhone: e.target.value }))}
+                value={formData.patientPhone}
+                onChange={(e) => setFormData(prev => ({ ...prev, patientPhone: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -292,8 +285,8 @@ const Appointments: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
-                value={formData.visitorEmail}
-                onChange={(e) => setFormData(prev => ({ ...prev, visitorEmail: e.target.value }))}
+                value={formData.patientEmail}
+                onChange={(e) => setFormData(prev => ({ ...prev, patientEmail: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -307,11 +300,19 @@ const Appointments: React.FC = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select Purpose</option>
-                <option value="Family Visit">Family Visit</option>
-                <option value="Legal Consultation">Legal Consultation</option>
-                <option value="Social Worker Visit">Social Worker Visit</option>
-                <option value="Medical Appointment">Medical Appointment</option>
-                <option value="Educational Program">Educational Program</option>
+                <option value="General Consultation">General Consultation</option>
+                <option value="Specialist Appointment">Specialist Appointment</option>
+                <option value="Emergency Visit">Emergency Visit</option>
+                <option value="Follow-up Appointment">Follow-up Appointment</option>
+                <option value="Laboratory Tests">Laboratory Tests</option>
+                <option value="Radiology/Imaging">Radiology/Imaging</option>
+                <option value="Vaccination">Vaccination</option>
+                <option value="Health Screening">Health Screening</option>
+                <option value="Maternity/Prenatal">Maternity/Prenatal</option>
+                <option value="Pediatric Care">Pediatric Care</option>
+                <option value="Physical Therapy">Physical Therapy</option>
+                <option value="Surgical Consultation">Surgical Consultation</option>
+                <option value="Discharge Planning">Discharge Planning</option>
                 <option value="Other">Other</option>
               </select>
             </div>
@@ -353,31 +354,54 @@ const Appointments: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Inmate ID</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
               <input
                 type="text"
-                value={formData.inmateId}
-                onChange={(e) => setFormData(prev => ({ ...prev, inmateId: e.target.value }))}
+                value={formData.patientId}
+                onChange={(e) => setFormData(prev => ({ ...prev, patientId: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Inmate Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Doctor Name</label>
               <input
                 type="text"
-                value={formData.inmateName}
-                onChange={(e) => setFormData(prev => ({ ...prev, inmateName: e.target.value }))}
+                value={formData.doctorName}
+                onChange={(e) => setFormData(prev => ({ ...prev, doctorName: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+              <select
+                value={formData.department}
+                onChange={(e) => setFormData(prev => ({ ...prev, department: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">Select Department</option>
+                <option value="Internal Medicine">Internal Medicine</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Laboratory">Laboratory</option>
+                <option value="Radiology">Radiology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Gynecology">Gynecology</option>
+                <option value="Surgery">Surgery</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Physical Therapy">Physical Therapy</option>
+              </select>
+            </div>
+
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Officer Notes</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Record Officer Notes</label>
               <textarea
                 rows={3}
-                value={formData.officerNotes}
-                onChange={(e) => setFormData(prev => ({ ...prev, officerNotes: e.target.value }))}
+                value={formData.recordOfficerNotes}
+                onChange={(e) => setFormData(prev => ({ ...prev, recordOfficerNotes: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Any special instructions or notes..."
               />
@@ -417,10 +441,10 @@ const Appointments: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Visitor
+                  Patient
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Inmate
+                  Doctor & Department
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date & Time
@@ -444,20 +468,23 @@ const Appointments: React.FC = () => {
                       <User className="h-5 w-5 text-gray-400 mr-3" />
                       <div>
                         <div className="text-sm font-medium text-gray-900">
-                          {appointment.visitorName}
+                          {appointment.patientName}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {appointment.visitorPhone}
+                          {appointment.patientPhone}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {appointment.patientId || 'N/A'}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {appointment.inmateName || 'N/A'}
+                      {appointment.doctorName || 'N/A'}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {appointment.inmateId || 'N/A'}
+                      {appointment.department || 'N/A'}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

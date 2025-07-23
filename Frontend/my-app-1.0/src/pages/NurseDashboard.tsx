@@ -18,7 +18,7 @@ import {
 import { NavLink } from "react-router-dom";
 
 const OPDNurseDashboard = () => {
-	const [activeTab, setActiveTab] = useState("queue");
+	const [activeTab, setActiveTab] = useState("overview");
 
 	type Patient = {
 		id: number;

@@ -42,6 +42,10 @@ export function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/patients/new" element={<PatientRegistration />} />
+            <Route path="/reports-logs" element={<h2>Coming Soon</h2>} />
+            <Route path="/role-permissions" element={<h2>Coming Soon</h2>} />
+            <Route path="/facility-configuration" element={<h2>Coming Soon</h2>} />
+
       
           </Route>
         </Routes>
