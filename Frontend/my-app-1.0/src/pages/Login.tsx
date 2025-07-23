@@ -21,7 +21,7 @@ const Login: React.FC = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [fullName, setFullName] = useState("");
-	const [role, setRole] = useState<import("../contexts/AuthContext").UserRole>('admin');
+	const [role, setRole] = useState<import("../contexts/AuthContext").UserRole>('Record Officer');
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [rememberMe, setRememberMe] = useState(false);
