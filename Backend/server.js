@@ -18,8 +18,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/patients', patientRoutes); // 🔐 Protect all patient routes
 
+app.use((req, res, next) => {
+  if (req.method === 'POST' || req.method === 'PUT') {
+    console.log('🔍 REQUEST DEBUG:', {
+      method: req.method,
+      url: req.url,
+      contentType: req.get('Content-Type'),
+      bodyEmpty: !req.body || Object.keys(req.body).length === 0,
+      bodyPreview: req.body ? JSON.stringify(req.body).substring(0, 100) : 'No body'
+    });
+  }
+  next();
+});
+
+
+app.use('/api/patients', patientRoutes); // 🔐 Protect all patient routes
 app.use('/api/auth', authRoutes);
 console.log('--- server.js: Auth routes are set up! ---'); // Diagnostic log
 

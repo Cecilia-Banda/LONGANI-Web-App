@@ -1,11 +1,14 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-export type UserRole = 'admin' | 'data_manager' | 'nurse' | 'doctor' | 'record officer' | null;
+
+export type UserRole = 'admin' | 'data_manager' | 'nurse' | 'doctor' | 'Record Officer' | null;
+
 interface User {
   id: string;
   firstName: string;
   lastName: string;
   role: UserRole;
 }
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string, role: UserRole) => Promise<void>;
@@ -13,13 +16,14 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
 }
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export const AuthProvider: React.FC<{
   children: React.ReactNode;
-}> = ({
-  children
-}) => {
+}> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+
   // Check if user is logged in from localStorage on initial load
   useEffect(() => {
     const storedUser = localStorage.getItem('hospitalAppUser');
@@ -27,50 +31,97 @@ export const AuthProvider: React.FC<{
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  // Login function to authenticate user
   const login = async (email: string, password: string, role: UserRole = 'admin') => {
-    // Simulate login - in real app, call API here
-    const emailPrefix = email.split('@')[0];
-    const nameParts = emailPrefix.split('.');
-    const firstName = nameParts[0] ? nameParts[0].charAt(0).toUpperCase() + nameParts[0].slice(1) : 'User';
-    const lastName = nameParts[1] ? nameParts[1].charAt(0).toUpperCase() + nameParts[1].slice(1) : '';
-    const newUser = {
-      id: `user-${Date.now()}`,
-      firstName,
-      lastName,
-      role
-    };
-    setUser(newUser);
-    localStorage.setItem('hospitalAppUser', JSON.stringify(newUser));
+    try {
+      // ✅ Fixed: Full URL and correct field names
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          username: email, // Backend expects 'username'
+          password: password,
+          role: role 
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const userData = await response.json();
+      console.log('✅ Login successful:', userData);
+
+      // Set user from backend response
+      setUser(userData.user);
+      localStorage.setItem('hospitalAppUser', JSON.stringify(userData.user));
+      localStorage.setItem('hospitalAppToken', userData.token);
+
+    } catch (error) {
+      console.error('❌ Login error:', error);
+      throw error; // Re-throw so Login component can handle it
+    }
   };
 
+  // ✅ Single signup function that calls your backend
   const signup = async (name: string, email: string, password: string, role: UserRole = 'admin') => {
-    // Simulate signup - in real app, call API here
-    const nameParts = name.trim().split(' ');
-    const firstName = nameParts[0] ? nameParts[0] : 'User';
-    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-    const newUser = {
-      id: `user-${Date.now()}`,
-      firstName,
-      lastName,
-      role
-    };
-    setUser(newUser);
-    localStorage.setItem('hospitalAppUser', JSON.stringify(newUser));
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fullName: name,
+          username: email, // Using email as username
+          email: email,
+          password: password,
+          role: role
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Signup failed');
+      }
+
+      const userData = await response.json();
+      console.log('✅ Signup successful:', userData);
+
+      // Set user from backend response
+      setUser(userData.user);
+      localStorage.setItem('hospitalAppUser', JSON.stringify(userData.user));
+      localStorage.setItem('hospitalAppToken', userData.token);
+
+    } catch (error) {
+      console.error('❌ Signup error:', error);
+      throw error;
+    }
   };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('hospitalAppUser');
+    localStorage.removeItem('hospitalAppToken');
   };
-  return <AuthContext.Provider value={{
-    user,
-    login,
-    signup,
-    logout,
-    isAuthenticated: !!user
-  }}>
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      login,
+      signup,
+      logout,
+      isAuthenticated: !!user
+    }}>
       {children}
-    </AuthContext.Provider>;
+    </AuthContext.Provider>
+  );
 };
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

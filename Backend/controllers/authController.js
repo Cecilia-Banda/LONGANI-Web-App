@@ -67,7 +67,7 @@ export async function login(req, res) {
   if (!username || !password) {
     return res.status(400).json({ 
       error: 'Missing required fields', 
-      required: ['username', 'password'] 
+      required: ['username', 'password', 'role'] 
     });
   }
   

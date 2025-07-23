@@ -11,6 +11,9 @@ import {
 	Heart,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import { errorMonitor } from "events";
+import { sign } from "crypto";
+import SignUp from "./SignUp";
 
 const Login: React.FC = () => {
 	const { login } = useAuth();
@@ -40,17 +43,21 @@ const Login: React.FC = () => {
 		}
 
 			try {
-				if (isLogin) {
+				if (isLogin && password !== "confirm password" && email !== "Confirm email") {
+					console.log("Login:", { email, password, role });
 					await login(email, password, role);
 					navigate("/dashboard");
 				} else {
 					// Handle signup logic here
-					console.log("Signup:", { fullName, email, password, role });
-					// For now, just switch to login
+					await SignUp("Signup:", { fullName, email, password, role });
+					navigate("/dashboard");
 					setIsLogin(true);
 					setError("");
 				}
 			} catch (err) {
+				console.error("Authentication error:", err);
+				console.error("Error details:", error.message);
+
 				setError(
 					isLogin
 						? "Invalid email or password"
