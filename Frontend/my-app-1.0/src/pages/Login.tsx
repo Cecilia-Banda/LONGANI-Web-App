@@ -11,12 +11,9 @@ import {
 	Heart,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { errorMonitor } from "events";
-import { sign } from "crypto";
-import SignUp from "./SignUp";
 
 const Login: React.FC = () => {
-	const { login } = useAuth();
+	const { login, signup } = useAuth();
 	const navigate = useNavigate();
 
 	const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +21,7 @@ const Login: React.FC = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [fullName, setFullName] = useState("");
-	const [role, setRole] = useState<import("../contexts/AuthContext").UserRole>('Record Officer');
+	const [role, setRole] = useState<import("../contexts/AuthContext").UserRole>('admin');
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [rememberMe, setRememberMe] = useState(false);
@@ -43,21 +40,15 @@ const Login: React.FC = () => {
 		}
 
 			try {
-				if (isLogin && password !== "confirm password" && email !== "Confirm email") {
-					console.log("Login:", { email, password, role });
+				if (isLogin) {
 					await login(email, password, role);
 					navigate("/dashboard");
 				} else {
 					// Handle signup logic here
-					await SignUp("Signup:", { fullName, email, password, role });
+					await signup(fullName, email, password, role);
 					navigate("/dashboard");
-					setIsLogin(true);
-					setError("");
 				}
 			} catch (err) {
-				console.error("Authentication error:", err);
-				console.error("Error details:", error.message);
-
 				setError(
 					isLogin
 						? "Invalid email or password"
@@ -327,3 +318,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+

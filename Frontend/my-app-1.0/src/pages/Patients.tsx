@@ -16,8 +16,19 @@ const Patients: React.FC = () => {
   const canDeletePatient = ['admin'].includes(user?.role || '');
   useEffect(() => {
     // Load patients on component mount
-    setPatients(getAllPatients());
-    setIsLoading(false);
+    const fetchPatients = async () => {
+      try {
+        const fetchedPatients = await getAllPatients();
+        setPatients(fetchedPatients);
+      } catch (error) {
+        console.error('Failed to fetch patients:', error);
+        setPatients([]); // Set empty array as fallback
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPatients();
   }, []);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

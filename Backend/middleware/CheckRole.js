@@ -1,11 +1,13 @@
-const allowRoles = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ msg: 'Forbidden: Insufficient role' });
-    }
-    next();
-  };
+const allowRoles = (...allowedRoles) => (req, res, next) => {
+  const userRole = req.user.role?.toLowerCase();
+  const isAllowed = allowedRoles.map(role =>
+    role.toLowerCase() === userRole
+  );
+
+  if (!isAllowed) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  next();
 };
 
 export default allowRoles;
-// This middleware checks if the user's role is allowed to access the route

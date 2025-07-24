@@ -18,8 +18,12 @@ const getAuthHeader = () => {
 // ✅ Create a new patient
 export const addPatient = async (patientData) => {
   try {
-    const response = await API.post('/patients', patientData, getAuthHeader());
-    return response.data;
+    const response = await axios.post('/api/Record Officer/patients', patientData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return response;
   } catch (error) {
     console.error('❌ Error adding patient:', error);
     throw error;

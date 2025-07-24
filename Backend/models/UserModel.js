@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['admin', 'Nurse', 'Doctor', 'Record Officer'],
-    default: 'Record Officer'
+    default: 'Admin'
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

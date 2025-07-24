@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -16,22 +16,28 @@ import DiagnosisForm from './pages/DiagnosisForm';
 import Settings from './pages/Settings';
 import Users from './pages/Users';
 import Layout from './components/layout/Layout';
-import { AuthProvider } from './contexts/AuthContext';
+import AuthProvider  from './components/contexts/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+
 export function App() {
-  return <BrowserRouter>
+  return (
+    <BrowserRouter>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>}>
+
+          {/* Protected Routes */}
+          <Route element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/dashboard/doctor" element={<DoctorDashboard />} />
             <Route path="/dashboard/nurse" element={<NurseDashboard />} />
-            <Route path="/dashboard/Record-Officer" element={<RecordOfficerDashboard />} />
+            <Route path="/dashboard/RecordOfficer" element={<RecordOfficerDashboard />} />
             <Route path="/patients/register" element={<PatientRegistration />} />
             <Route path="/patients/:id" element={<PatientDetail />} />
             <Route path="/patients/:id/edit" element={<PatientEdit />} />
@@ -45,10 +51,12 @@ export function App() {
             <Route path="/reports-logs" element={<h2>Coming Soon</h2>} />
             <Route path="/role-permissions" element={<h2>Coming Soon</h2>} />
             <Route path="/facility-configuration" element={<h2>Coming Soon</h2>} />
-
-      
           </Route>
+
+          {/* Catch-all fallback */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </AuthProvider>
-    </BrowserRouter>;
+    </BrowserRouter>
+  );
 }

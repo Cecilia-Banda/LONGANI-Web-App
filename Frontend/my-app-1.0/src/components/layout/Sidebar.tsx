@@ -146,13 +146,13 @@ const Sidebar: React.FC = () => {
 				name: "Register Patient",
 				icon: <UserPlus size={20} />,
 				href: "/patients/register",
-				allowedRoles: ["record Officer"],
+				allowedRoles: ["Record Officer"],
 			},
 			{
 				name: "Patient Records",
 				icon: <ClipboardList size={20} />,
 				href: "/patients",
-				allowedRoles: ["Record officer"],
+				allowedRoles: ["Record Officer"],
 			},
 			{
 				name: "Schedule Appointments",
