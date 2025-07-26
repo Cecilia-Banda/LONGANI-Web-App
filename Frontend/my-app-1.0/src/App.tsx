@@ -16,7 +16,7 @@ import DiagnosisForm from './pages/DiagnosisForm';
 import Settings from './pages/Settings';
 import Users from './pages/Users';
 import Layout from './components/layout/Layout';
-import AuthProvider  from './components/contexts/AuthContext';
+import {AuthProvider}  from './contexts/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 export function App() {

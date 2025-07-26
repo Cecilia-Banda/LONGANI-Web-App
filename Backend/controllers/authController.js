@@ -2,6 +2,8 @@ import User from '../models/UserModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
+const ROLES = ['admin', 'nurse', 'doctor', 'record-officer'];
+
 function createToken(user) {
   return jwt.sign(
     { 
@@ -13,37 +15,52 @@ function createToken(user) {
   );
 }
 
-export async function register(req, res) {
+function sanitizeUser(user) {
+  return {
+    id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role
+  };
+}
+
+// Enhanced validation middleware
+export const validateAuthData = (req, res, next) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Request body is missing' });
   }
   
-  const { fullName, username, email, password, role } = req.body;
+  const { fullName, email, password, role } = req.body;
   
-  if (!fullName || !username || !email || !password || !role) {
+  if (!fullName || !email || !password || !role) {
     return res.status(400).json({ 
       error: 'Missing required fields', 
-      required: ['fullName', 'username', 'email', 'password', 'role'] 
+      required: ['fullName', 'email', 'password', 'role'] 
     });
   }
-  
-  try {
-    const existingUser = await User.findOne({ 
-      $or: [{ username }, { email }] 
+
+  if (!ROLES.includes(role.toLowerCase())) {
+    return res.status(400).json({ 
+      error: 'Invalid role', 
+      validRoles: ROLES 
     });
+  }
+
+  next();
+};
+
+export async function register(req, res) {
+  try {
+    const { fullName, email, password, role } = req.body;
     
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ 
-        error: existingUser.username === username 
-          ? 'Username taken' 
-          : 'Email already registered' 
-      });
+      return res.status(400).json({ error: 'Email already registered' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ 
       fullName, 
-      username, 
       email, 
       password: hashedPassword, 
       role: role.toLowerCase() 
@@ -54,41 +71,19 @@ export async function register(req, res) {
     
     res.status(201).json({ 
       token, 
-      user: { 
-        id: user._id,
-        fullName: user.fullName, 
-        username: user.username, 
-        email: user.email,
-        role: user.role 
-      } 
+      user: sanitizeUser(user)
     });
   } catch (err) {
     console.error('Registration error:', err);
-    res.status(500).json({ 
-      error: 'Registration failed', 
-      details: process.env.NODE_ENV === 'development' ? err.message : undefined 
-    });
+    res.status(500).json({ error: 'Registration failed' });
   }
 }
 
 export async function login(req, res) {
-  console.log('Login request body:', req.body);
-  
-  if (!req.body) {
-    return res.status(400).json({ error: 'Request body is missing' });
-  }
-  
-  const { email, password, role } = req.body; // Changed from username to email
-  
-  if (!email || !password || !role) {
-    return res.status(400).json({ 
-      error: 'Missing required fields', 
-      required: ['email', 'password', 'role'] 
-    });
-  }
-  
   try {
-    const user = await User.findOne({ email });
+    const { email, password, role } = req.body;
+    
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -99,41 +94,33 @@ export async function login(req, res) {
     }
 
     if (user.role !== role.toLowerCase()) {
-      return res.status(403).json({ error: 'Unauthorized for this role' });
+      return res.status(403).json({ error: 'Access denied for this role' });
     }
 
     const token = createToken(user);
     res.status(200).json({ 
       token, 
-      user: { 
-        id: user._id,
-        fullName: user.fullName, 
-        username: user.username, 
-        email: user.email,
-        role: user.role 
-      } 
+      user: sanitizeUser(user)
     });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ 
-      error: 'Login failed', 
-      details: process.env.NODE_ENV === 'development' ? err.message : undefined 
-    });
+    res.status(500).json({ error: 'Login failed' });
   }
 }
 
-export async function getUserProfile(req, res) {
+export async function getProfile(req, res) {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.status(200).json(user);
+    res.status(200).json(sanitizeUser(user));
   } catch (err) {
     console.error('Profile fetch error:', err);
-    res.status(500).json({ 
-      error: 'Failed to fetch profile',
-      details: process.env.NODE_ENV === 'development' ? err.message : undefined 
-    });
+    res.status(500).json({ error: 'Failed to fetch profile' });
   }
 }
+
+export async function getUserProfile(req, res) {register, login, getProfile}
+
+// This code provides a complete authentication controller with enhanced validation, registration, login, and profile retrieval
