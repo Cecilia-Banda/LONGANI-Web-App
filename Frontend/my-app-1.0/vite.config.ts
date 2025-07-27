@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173, // Or whatever port your Vite dev server should run on
     proxy: {
       '/api': { // Any request starting with /api
-        target: 'http://localhost:5000', // <-- This MUST match your backend's PORT
+        target: 'http://localhost:5001', // <-- This MUST match your backend's PORT
         changeOrigin: true, // Necessary for many proxy setups
         // rewrite: (path) => path.replace(/^\/api/, ''), // Use this if your backend endpoints DON'T start with /api (e.g., just /users, /patients)
                                                           // Given your server.js, your backend endpoints DO start with /api

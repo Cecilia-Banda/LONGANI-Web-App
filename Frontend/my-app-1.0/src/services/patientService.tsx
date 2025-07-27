@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base URL
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // ✅ Change if your backend URL is different
+  baseURL: 'http://localhost:5001/api', // ✅ Change if your backend URL is different
 });
 
 // Helper to add JWT token from localStorage

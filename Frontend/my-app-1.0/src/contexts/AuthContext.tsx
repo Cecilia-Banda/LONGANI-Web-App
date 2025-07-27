@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import axios  from "axios" ;
+import API from '../utils/axios';
 
 export type UserRole = 'admin' | 'nurse' | 'doctor' | 'record-officer' | null;
 
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return;
         }
 
-        const response = await axios.get('/auth/profile', {
+        const response = await API.get('/auth/profile', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -54,10 +54,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string, role: UserRole) => {
     try {
-      const response = await axios.post('/auth/login', {
+      const response = await API.post('/auth/login', {
         email,
         password,
-        role
       });
 
       const { user, token } = response.data;
@@ -71,8 +70,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (fullName: string, email: string, password: string, role: UserRole) => {
     try {
-      const response = await axios.post('/auth/register', {
+      const response = await API.post('/auth/register', {
         fullName,
+        username,
         email,
         password,
         role

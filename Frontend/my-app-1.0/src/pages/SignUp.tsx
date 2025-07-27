@@ -6,9 +6,9 @@ const SignUp: React.FC = () => {
   const { signup } = useAuth();
   const navigate = useNavigate();
 
-  const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('Admin');
+  const [role, setRole] = useState('admin');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -24,11 +24,16 @@ const SignUp: React.FC = () => {
     }
     setLoading(true);
     try {
-      // Assuming signup accepts role as additional param if supported
-      await signup(name, email, password, role.toLowerCase() as import("../contexts/AuthContext").UserRole);
+      await signup(fullName, email, password, role.toLowerCase());
+      // Navigate to the dashboard after successful signup
       navigate('/dashboard');
     } catch (err) {
-      setError('Failed to create an account');
+      // Handle specific error messages based on the backend response
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || 'Failed to create an account');
+      } else {
+        setError('Failed to create an account');
+      }
     } finally {
       setLoading(false);
     }
@@ -53,23 +58,23 @@ const SignUp: React.FC = () => {
               onChange={(e) => setRole(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
-              <option>Admin</option>
-              <option>Record Officer</option>
-              <option>OPD Nurse</option>
-              <option>Doctor</option>
+              <option value="admin">Admin</option>
+              <option value="Record_Officer">Record_Officer</option>
+              <option value="nurse">Nurse</option>
+              <option value="doctor">Doctor</option>
             </select>
           </div>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
               Full Name
             </label>
             <input
-              id="name"
+              id="fullName"
               type="text"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
           </div>

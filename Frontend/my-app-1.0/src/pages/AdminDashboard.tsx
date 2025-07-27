@@ -173,7 +173,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => (
 					color="bg-green-500"
 				/>
 				<StatCard
-					title="Record Officers"
+					title="Record_Officers"
 					value="24"
 					change={-2}
 					icon={Users}

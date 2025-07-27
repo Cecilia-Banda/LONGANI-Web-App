@@ -162,7 +162,7 @@ const RecordOfficerDashboard: React.FC = () => {
   
   // Verify role on mount
   useEffect(() => {
-    if (userRole !== "Record Officer") {
+    if (userRole !== "Record_Officer") {
       navigate("/unauthorized");
     }
   }, [userRole, navigate]);

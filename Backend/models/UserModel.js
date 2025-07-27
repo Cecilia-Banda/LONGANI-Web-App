@@ -3,13 +3,12 @@ import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   role: {
     type: String,
-    enum: ['admin', 'Nurse', 'Doctor', 'Record Officer'],
-    default: 'Admin'
+    enum: ['admin', 'nurse', 'doctor', 'Record_Officer'],
+    default: 'admin'
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
@@ -23,9 +22,5 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.methods.comparePassword = async function (input) {
-  return await bcrypt.compare(input, this.password);
-};
-
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User ', userSchema);
 export default User;

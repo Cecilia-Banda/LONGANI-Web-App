@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // or your deployed backend URL
+  baseURL: 'http://localhost:5001/api', // or your deployed backend URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,7 +12,7 @@ API.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('hospitalAppUser'));
   const token = localStorage.getItem('hospitalAppToken');
   if (token) {
-    config.headers.Authorization = `Bearer ${tokenoken}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

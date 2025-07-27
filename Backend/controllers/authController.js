@@ -2,7 +2,7 @@ import User from '../models/UserModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const ROLES = ['admin', 'nurse', 'doctor', 'record-officer'];
+const ROLES = ['admin', 'Nurse', 'Doctor', 'RecordOfficer'];
 
 function createToken(user) {
   return jwt.sign(
@@ -24,8 +24,8 @@ function sanitizeUser(user) {
   };
 }
 
-// Enhanced validation middleware
-export const validateAuthData = (req, res, next) => {
+// Registration validation middleware
+export const validateRegisterData = (req, res, next) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Request body is missing' });
   }
@@ -39,10 +39,51 @@ export const validateAuthData = (req, res, next) => {
     });
   }
 
-  if (!ROLES.includes(role.toLowerCase())) {
+  // Convert frontend role to match User model format
+  const roleMap = {
+    'admin': 'admin',
+    'nurse': 'Nurse', 
+    'doctor': 'Doctor',
+    'record-officer': 'Record Officer'
+  };
+  
+  if (!roleMap[role.toLowerCase()]) {
     return res.status(400).json({ 
       error: 'Invalid role', 
-      validRoles: ROLES 
+      validRoles: Object.keys(roleMap)
+    });
+  }
+
+  next();
+};
+
+// Login validation middleware
+export const validateLoginData = (req, res, next) => {
+  if (!req.body) {
+    return res.status(400).json({ error: 'Request body is missing' });
+  }
+  
+  const { email, password, role } = req.body;
+  
+  if (!email || !password || !role) {
+    return res.status(400).json({ 
+      error: 'Missing required fields', 
+      required: ['email', 'password', 'role'] 
+    });
+  }
+
+  // Convert frontend role to match User model format
+  const roleMap = {
+    'admin': 'admin',
+    'nurse': 'Nurse', 
+    'doctor': 'Doctor',
+    'record-officer': 'Record Officer'
+  };
+  
+  if (!roleMap[role.toLowerCase()]) {
+    return res.status(400).json({ 
+      error: 'Invalid role', 
+      validRoles: Object.keys(roleMap)
     });
   }
 
@@ -58,12 +99,31 @@ export async function register(req, res) {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Convert frontend role to User model format
+    const roleMap = {
+      'admin': 'admin',
+      'nurse': 'Nurse', 
+      'doctor': 'Doctor',
+      'record-officer': 'Record Officer'
+    };
+    
+    // Generate username from email (part before @)
+    let username = email.split('@')[0];
+    
+    // Ensure username uniqueness by adding a number if needed
+    let counter = 1;
+    let originalUsername = username;
+    while (await User.findOne({ username })) {
+      username = `${originalUsername}${counter}`;
+      counter++;
+    }
+    
     const user = new User({ 
       fullName, 
+      username,
       email, 
-      password: hashedPassword, 
-      role: role.toLowerCase() 
+      password, // Don't hash here - let the pre-save hook handle it
+      role: roleMap[role.toLowerCase()]
     });
     
     await user.save();
@@ -83,17 +143,51 @@ export async function login(req, res) {
   try {
     const { email, password, role } = req.body;
     
+    console.log('🔍 LOGIN DEBUG:', { email, role });
+    
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
+      console.log('❌ User not found for email:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('👤 Found user:', { id: user._id, email: user.email, role: user.role });
+    console.log('🔐 Password debug:', { 
+      inputPassword: password, 
+      hashedPassword: user.password ? 'exists' : 'missing',
+      passwordLength: user.password ? user.password.length : 'N/A'
+    });
+
+    const isMatch = await user.comparePassword(password);
+    console.log('🔐 Password comparison result:', isMatch);
+    
+    // Test with direct bcrypt comparison as well
+    const directMatch = await bcrypt.compare(password, user.password);
+    console.log('🔐 Direct bcrypt comparison:', directMatch);
+    
     if (!isMatch) {
+      console.log('❌ Password mismatch');
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    if (user.role !== role.toLowerCase()) {
+    // Convert frontend role to User model format for comparison
+    const roleMap = {
+      'admin': 'admin',
+      'nurse': 'Nurse', 
+      'doctor': 'Doctor',
+      'record-officer': 'Record Officer'
+    };
+
+    const expectedRole = roleMap[role.toLowerCase()];
+    console.log('🎭 Role comparison:', { 
+      userRole: user.role, 
+      frontendRole: role, 
+      expectedRole,
+      match: user.role === expectedRole 
+    });
+
+    if (user.role !== expectedRole) {
+      console.log('❌ Role mismatch');
       return res.status(403).json({ error: 'Access denied for this role' });
     }
 

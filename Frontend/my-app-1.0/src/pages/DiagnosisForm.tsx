@@ -60,7 +60,7 @@ const DiagnosisForm: React.FC = () => {
     setIsSubmitting(true);
     setError('');
     try {
-      const result = addMedicalRecord(id, formData, user?<div className="UserRole"></div> || 'Unknown User');
+      const result = addMedicalRecord(id, formData, user || 'Unknown User');
       if (result) {
         alert('Medical record added successfully!');
         navigate(`/patients/${id}`);

@@ -11,7 +11,7 @@ const mockUsers = [{
   lastActive: '2023-10-15'
 }, {
   id: 2,
-  name: 'Record Officer',
+  name: 'Record_Officer',
   email: 'data@example.com',
   role: 'RecordOfficer',
   lastActive: '2023-10-14'
@@ -111,7 +111,7 @@ const Users: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : user.role === 'RecordOfficer' ? 'bg-blue-100 text-blue-800' : user.role === 'nurse' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                      {user.role === 'admin' ? 'Administrator' : user.role === 'RecordOfficer' ? 'Record Officer' : user.role === 'nurse' ? 'OPD Nurse' : 'Doctor'}
+                      {user.role === 'admin' ? 'Administrator' : user.role === 'RecordOfficer' ? 'Record_Officer' : user.role === 'nurse' ? 'OPD Nurse' : 'Doctor'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

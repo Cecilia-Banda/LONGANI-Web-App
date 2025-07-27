@@ -6,11 +6,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './Routes/authRoutes.js'; // ✅ This is already ESModule style
 import patientRoutes from './Routes/patientRoutes.js';
-console.log('--- server.js: Importing routes ---'); 
-// Diagnostic log
+
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const app = express();
 

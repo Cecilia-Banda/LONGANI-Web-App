@@ -32,8 +32,9 @@ const Appointments: React.FC = () => {
       patientId: 'PAT001',
       doctorName: 'Dr. John Smith',
       department: 'Internal Medicine'
-    },
-    
+    }
+  ]);
+  
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
