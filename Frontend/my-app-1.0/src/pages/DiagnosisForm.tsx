@@ -22,19 +22,27 @@ const DiagnosisForm: React.FC = () => {
     prescription: '',
     notes: ''
   });
-  // Only admin and doctor can access this page
-  const canAddDiagnosis = ['admin', 'doctor'].includes(user?.role || '');
+  // Only Nurse and doctor can access this page
+  const canAddDiagnosis = ['Nurse', 'doctor'].includes(user?.role || '');
   useEffect(() => {
-    if (id) {
-      const patient = getPatientById(id);
-      if (patient) {
-        setPatientName(`${patient.firstName} ${patient.lastName}`);
-        setIsLoading(false);
-      } else {
-        setError('Patient not found');
-        setIsLoading(false);
+    const fetchPatient = async () => {
+      if (id) {
+        try {
+          const patient = await getPatientById(id);
+          if (patient) {
+            setPatientName(`${patient.firstName} ${patient.lastName}`);
+            setIsLoading(false);
+          } else {
+            setError('Patient not found');
+            setIsLoading(false);
+          }
+        } catch (err) {
+          setError('Patient not found');
+          setIsLoading(false);
+        }
       }
-    }
+    };
+    fetchPatient();
   }, [id]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
@@ -52,7 +60,7 @@ const DiagnosisForm: React.FC = () => {
     setIsSubmitting(true);
     setError('');
     try {
-      const result = addMedicalRecord(id, formData, user?.name || 'Unknown User');
+      const result = addMedicalRecord(id, formData, user?<div className="UserRole"></div> || 'Unknown User');
       if (result) {
         alert('Medical record added successfully!');
         navigate(`/patients/${id}`);
@@ -162,3 +170,7 @@ const DiagnosisForm: React.FC = () => {
     </div>;
 };
 export default DiagnosisForm;
+
+function addMedicalRecord(id: string, formData: { diagnosis: string; prescription: string; notes: string; }, arg2: any) {
+  throw new Error('Function not implemented.');
+}

@@ -33,22 +33,7 @@ const Appointments: React.FC = () => {
       doctorName: 'Dr. John Smith',
       department: 'Internal Medicine'
     },
-    {
-      id: '2',
-      patientName: 'Michael Brown',
-      patientPhone: '+1-555-0456',
-      patientEmail: 'mbrown@email.com',
-      purpose: 'Specialist Appointment',
-      date: '2025-07-22',
-      time: '16:00',
-      duration: 120,
-      status: 'scheduled',
-      patientId: 'PAT002',
-      doctorName: 'Dr. Emily Wilson',
-      department: 'Cardiology'
-    },
-  ]);
-
+    
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');

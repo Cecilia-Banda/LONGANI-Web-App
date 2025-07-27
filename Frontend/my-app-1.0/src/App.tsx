@@ -13,6 +13,7 @@ import PatientEdit from './pages/PatientEdit';
 import Patients from './pages/Patients';
 import VitalsRecording from './pages/VitalsRecording';
 import DiagnosisForm from './pages/DiagnosisForm';
+import MedicalHistory from './pages/MedicalHistory';
 import Settings from './pages/Settings';
 import Users from './pages/Users';
 import Layout from './components/layout/Layout';
@@ -44,6 +45,7 @@ export function App() {
             <Route path="/patients" element={<Patients />} />
             <Route path="/vitals/:id" element={<VitalsRecording />} />
             <Route path="/diagnosis/:id" element={<DiagnosisForm />} />
+            <Route path="/medical-history/:id" element={<MedicalHistory />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/users" element={<Users />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
