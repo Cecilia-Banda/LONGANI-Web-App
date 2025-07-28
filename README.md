@@ -74,6 +74,11 @@ Use the frontend interface for easier interaction
 
 DEPLOYMENT PLAN
  - Frontend : Vercel
+   
  - Backend: Render
+   https://dashboard.render.com/web/srv-d23q5s6uk2gs738qn6r0/deploys/dep-d23qf6ndiees739ufhvg
+   
  - Database: MongoDB Atlas
+
+ - 
 
