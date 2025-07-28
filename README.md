@@ -61,7 +61,9 @@ Screenshots:
 DEMO VIDEO 
 https://screenapp.io/app/#/shared/66akEMXJmC -MVP
 
-FINAL DEMO VIDEO
+FINAL DEMO VIDEO:
+
+
 
 
 USAGE
@@ -74,3 +76,4 @@ DEPLOYMENT PLAN
  - Frontend : Vercel
  - Backend: Render
  - Database: MongoDB Atlas
+
