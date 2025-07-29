@@ -165,7 +165,8 @@ https://screenapp.io/app/#/shared/66akEMXJmC: Initial version showcasing core fu
 
 Final Demo Video
 
-LINK: Comprehensive demonstration of all features and functionalities
+https://www.loom.com/share/c198394c0a2345a5848f90677317beef?sid=23857dcd-1d09-4ae8-ba51-59ab9b918762:
+Comprehensive demonstration of all features and functionalities
 
 This comprehensive demo showcases:
 Digital patient record management
